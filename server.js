@@ -12,12 +12,18 @@ app.post('/api/v1/create-blog', function (request, response) {
 });
 
 app.get('/api/v1/get-blog', function(request, response) {
-    blog.getBlogPost(parseInt(request.query.id)).then((data) => {
-        console.log("calling here");
-        console.log
+    blog.getBlogPost(parseInt(request.query.id))
+    .then((data) => {
         response.status(200).send({
             success: 'true',
             response: data
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+        response.status(400).send({
+            success: false,
+            response: error.toString()
         });
     });
 });

@@ -37,14 +37,13 @@ const getBlogPost = (id) => {
         }
     };
 
-    return new Promise(function(res, rej) {
+    return new Promise(function(resolve, reject) {
         documentClient.get(params, function(error, data) {
-            if(data) {
-                return res(data.Item);
+            if(data && data.Item) {
+                return resolve(data.Item);
             }
             else {
-                console.log("Error: " + error);
-                return null;
+                return reject(new Error("Data does not exist!"));
             }
         });
     });
