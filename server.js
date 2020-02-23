@@ -12,11 +12,13 @@ app.post('/api/v1/create-blog', function (request, response) {
 });
 
 app.get('/api/v1/get-blog', function(request, response) {
-    var blogPost = blog.getBlogPost(parseInt(request.query.id));
-    // console.log(blogPost);
-    response.status(200).send({
-        success: 'true',
-        response: blogPost
+    blog.getBlogPost(parseInt(request.query.id)).then((data) => {
+        console.log("calling here");
+        console.log
+        response.status(200).send({
+            success: 'true',
+            response: data
+        });
     });
 });
 

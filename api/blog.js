@@ -37,15 +37,16 @@ const getBlogPost = (id) => {
         }
     };
 
-    return documentClient.get(params, function(error, data) {
-        if(data) {
-            console.log(data.Item);
-            // return JSON.stringify(data.Item);
-        }
-        else {
-            console.log("Error: " + error);
-            return null;
-        }
+    return new Promise(function(res, rej) {
+        documentClient.get(params, function(error, data) {
+            if(data) {
+                return res(data.Item);
+            }
+            else {
+                console.log("Error: " + error);
+                return null;
+            }
+        });
     });
 }
 
