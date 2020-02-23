@@ -5,17 +5,18 @@ var port = 2300;
 var blog = require('./api/blog');
 
 app.post('/api/v1/create-blog', function (request, response) {
-    blog.createPost(request);
-    console.log("creating blog!");
+    blog.createBlogPost(request)
     response.status(200).send({
         success: 'true'
     });
 });
 
 app.get('/api/v1/get-blog', function(request, response) {
-    blog.getItem(request.query.id);
+    var blogPost = blog.getBlogPost(parseInt(request.query.id));
+    // console.log(blogPost);
     response.status(200).send({
-        success: 'true'
+        success: 'true',
+        response: blogPost
     });
 });
 
