@@ -1,0 +1,26 @@
+service: my-portfolio-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: '*'
+
+package:
+  individually: true
+  exclude:
+      - node_modules/**
+
+functions:
+  getblog:
+    handler: server.createblog
+    events:
+      - http:
+          path: createblog
+          method: GET
+          cors: true
+        
