@@ -8,10 +8,29 @@ exports.createblog = async (event) => {
     const response = {
         statusCode: 200,
         body: JSON.stringify({success: true}),
-    }
+    };
 
     return response;
 };
+
+exports.getBlog = async (event) => {
+    console.log("Event: ", event);
+    getBlogPost(event).then((response) => {
+        const response = {
+            statusCode: 200,
+            body: JSON.stringify(response)
+        };
+
+        return response;
+    })
+    .catch((error) => {
+        console.log(error);
+        response.status(400).send({
+            success: false,
+            response: error.toString()
+        });
+    });
+}
 
 const createBlogPost = () => {
     const blogData = {
