@@ -20,7 +20,7 @@ functions:
     handler: server.createblog
     events:
       - http:
-          path: createblog
-          method: GET
+          path: api/v1/blog
+          method: POST
           cors: true
         
