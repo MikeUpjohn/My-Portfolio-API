@@ -3,6 +3,16 @@ AWS.config.update({region: 'eu-west-1'});
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
+exports.createblog = async (event) => {
+    createBlogPost(event)
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({success: true}),
+    }
+
+    return response;
+};
+
 const createBlogPost = () => {
     const blogData = {
         ID: Date.now(),
@@ -47,9 +57,4 @@ const getBlogPost = (id) => {
             }
         });
     });
-}
-
-module.exports = {
-    createBlogPost,
-    getBlogPost
 }

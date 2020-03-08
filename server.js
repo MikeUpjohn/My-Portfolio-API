@@ -11,15 +11,7 @@ var blog = require('./api/blog');
 //     });
 // });
 
-exports.createblog = async (event) => {
-    blog.createBlogPost(event)
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify({success: true}),
-    }
 
-    return response;
-};
 
 
 // app.get('/api/v1/get-blog', function(request, response) {

@@ -13,11 +13,11 @@ provider:
 package:
   individually: true
   exclude:
-      - node_modules/**
+    - node_modules/**
 
 functions:
   getblog:
-    handler: server.createblog
+    handler: api/blog.createblog
     events:
       - http:
           path: api/v1/blog
