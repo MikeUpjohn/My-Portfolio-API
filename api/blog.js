@@ -3,7 +3,16 @@ AWS.config.update({region: 'eu-west-1'});
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
-exports.createblog = async (event) => {
+exports.mikeTest = async () => {
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({sorted: true})
+    };
+
+    return response;
+}
+
+exports.createBlog = async (event) => {
     createBlogPost(event)
     const response = {
         statusCode: 200,
@@ -14,21 +23,23 @@ exports.createblog = async (event) => {
 };
 
 exports.getBlog = async (event) => {
-    console.log("Event: ", event);
-    getBlogPost(event).then((response) => {
-        const response = {
+    return getBlogPost(event).then((data) => {
+        console.log("worked", data);
+        var response =  {
             statusCode: 200,
-            body: JSON.stringify(response)
+            body: JSON.stringify(data)
         };
 
         return response;
     })
     .catch((error) => {
-        console.log(error);
-        response.status(400).send({
-            success: false,
-            response: error.toString()
-        });
+        console.log("didn't work");
+        var response = {
+            statusCode: 400,
+            body: JSON.stringify(error.toString())
+        };
+
+        return response;
     });
 }
 
@@ -57,8 +68,9 @@ const createBlogPost = () => {
     });
 };
 
-const getBlogPost = (id) => {
-    console.log(id);
+const getBlogPost = (event) => {
+    const id = parseInt(event.queryStringParameters.id);
+    
     var params = {
         TableName: tableName,
         Key : {
@@ -68,11 +80,15 @@ const getBlogPost = (id) => {
 
     return new Promise(function(resolve, reject) {
         documentClient.get(params, function(error, data) {
+            console.log("inside promise");
             if(data && data.Item) {
+                console.log("data ", data);
                 return resolve(data.Item);
             }
             else {
-                return reject(new Error("Data does not exist!"));
+                console.log("rejecting...");
+                console.log(error);
+                return reject("Data does not exist!");
             }
         });
     });

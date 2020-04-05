@@ -1,6 +1,6 @@
-// var express = require('express');
-// var app = express();
-// var port = 2300;
+var express = require('express');
+var app = express();
+var port = 2300;
 
 var blog = require('./api/blog');
 
@@ -31,5 +31,5 @@ var blog = require('./api/blog');
 //     });
 // });
 
-// app.listen(port);
-// console.log(`Server started running on ${port}`);
+app.listen(port);
+console.log(`Server started running on ${port}`);
