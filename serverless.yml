@@ -19,20 +19,21 @@ package:
     - node_modules/**
 
 functions:
-  getblog:
+  get-blog:
     handler: api/blog.getBlog
     events:
       - http:
           path: api/v1/blog
           method: GET
           cors: true
-  miketest:
-    handler: api/blog.mikeTest
+  create-blog:
+    handler: api/blog.createBlog
     events:
       - http:
-          path: api/v1/blog/mike-test
-          method: GET
+          path: api/v1/blog
+          method: POST
           cors: true
+
 custom:
   serverless-offline:
     httpPort: 2300
