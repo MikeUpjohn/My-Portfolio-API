@@ -3,15 +3,6 @@ AWS.config.update({region: 'eu-west-1'});
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
-exports.mikeTest = async () => {
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify({sorted: true})
-    };
-
-    return response;
-}
-
 exports.createBlog = async (event) => {
     createBlogPost(event)
     const response = {
