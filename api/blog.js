@@ -15,38 +15,24 @@ exports.createBlog = async (event) => {
 };
 
 exports.getBlog = async (event) => {
-    // return getBlogPost(event).then(function(result) {
-    //     var response =  {
-    //         statusCode: 200,
-    //         body: JSON.stringify(result)
-    //     };
-    
-    //     return response;
-    // });
+    return getBlogPost(event).then(
+        data => {
+            var response = {
+                statusCode: 200,
+                body: JSON.stringify(data)
+            };
 
-    // return getBlogPost(event).then(
-    //     result => {
-    //         console.log("result", result);
-    //         var response = {
-    //             statusCode: 200,
-    //             body: JSON.stringify(result)
-    //         };
+            return response;
+        },
+        error => {
+            var response = {
+                statusCode: 400,
+                body: JSON.stringify(error)
+            };  
 
-    //         return response;
-    //     },
-    //     error => {
-    //         console.log("error");
-    //     }
-    // )
-
-    var data = await getBlogPost(event);
-
-    var response = {
-        statusCode: 200,
-        body: JSON.stringify(data)
-    };
-
-    return response;
+            return response;
+        }
+    );
 };
 
 const createBlogPost = () => {
@@ -86,15 +72,23 @@ const getBlogPost = (event) => {
 
     return new Promise(function(resolve, reject) {
         documentClient.get(params, function(error, data) {
-            console.log("inside promise");
+            if(error) {
+                var result = {
+                    message: error
+                };
+
+                return reject(result);
+            }
             if(data && data.Item) {
-                console.log("data ", data);
-                return resolve(data.Item);
+                var result = data.Item;
+
+                return resolve(result);
             }
             else {
-                console.log("rejecting...");
-                console.log(error);
-                return reject("Data does not exist!");
+                var result = {
+                    message: 'Data does not exist'
+                };
+                return reject(result);
             }
         });
     });
