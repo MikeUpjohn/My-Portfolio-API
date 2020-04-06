@@ -4,7 +4,8 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
 exports.createBlog = async (event) => {
-    createBlogPost(event)
+    createBlogPost(event);
+
     const response = {
         statusCode: 200,
         body: JSON.stringify({success: true}),
@@ -14,25 +15,39 @@ exports.createBlog = async (event) => {
 };
 
 exports.getBlog = async (event) => {
-    return getBlogPost(event).then((data) => {
-        console.log("worked", data);
-        var response =  {
-            statusCode: 200,
-            body: JSON.stringify(data)
-        };
+    // return getBlogPost(event).then(function(result) {
+    //     var response =  {
+    //         statusCode: 200,
+    //         body: JSON.stringify(result)
+    //     };
+    
+    //     return response;
+    // });
 
-        return response;
-    })
-    .catch((error) => {
-        console.log("didn't work");
-        var response = {
-            statusCode: 400,
-            body: JSON.stringify(error.toString())
-        };
+    // return getBlogPost(event).then(
+    //     result => {
+    //         console.log("result", result);
+    //         var response = {
+    //             statusCode: 200,
+    //             body: JSON.stringify(result)
+    //         };
 
-        return response;
-    });
-}
+    //         return response;
+    //     },
+    //     error => {
+    //         console.log("error");
+    //     }
+    // )
+
+    var data = await getBlogPost(event);
+
+    var response = {
+        statusCode: 200,
+        body: JSON.stringify(data)
+    };
+
+    return response;
+};
 
 const createBlogPost = () => {
     const blogData = {
@@ -60,7 +75,7 @@ const createBlogPost = () => {
 };
 
 const getBlogPost = (event) => {
-    const id = parseInt(event.queryStringParameters.id);
+    const id = parseInt(event.queryStringParameters['id']);
     
     var params = {
         TableName: tableName,
