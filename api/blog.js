@@ -4,14 +4,26 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
 exports.createBlog = async (event) => {
-    createBlogPost(event);
+    return createBlogPost(event).then(
+        data => {
+            const response = {
+                statusCode: 200,
+                body: JSON.stringify({success: true, data: data}),
+            };
+        
+            return response;
+        },
+        error => {
+            const response = {
+                statusCode: 400,
+                body: JSON.stringify({success:false, error: error}),
+            };
+        
+            return response;
+        }
+    )
 
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify({success: true}),
-    };
-
-    return response;
+    
 };
 
 exports.getBlog = async (event) => {
@@ -49,14 +61,22 @@ const createBlogPost = () => {
         Item: blogData
     };
 
-    documentClient.put(params, function(error, data) {
-        if(data) {
-            return true;
-        }
-        else {
-            console.log("Error: " + error);
-            return false;
-        }
+    return new Promise(function(resolve, reject) {
+        documentClient.put(params, function(error, data) {
+            if(error) {
+                var result = {
+                    message: error
+                };
+
+                return reject(result);
+            }
+            if(data) {
+                return resolve(true);
+            }
+            else {
+                return reject(false);
+            }
+        });
     });
 };
 
