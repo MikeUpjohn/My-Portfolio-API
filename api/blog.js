@@ -113,5 +113,3 @@ const getBlogPost = (event) => {
         });
     });
 }
-
-
