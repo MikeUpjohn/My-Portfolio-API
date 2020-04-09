@@ -20,14 +20,14 @@ package:
 
 functions:
   get-blog:
-    handler: api/blog.getBlog
+    handler: api/blog.get
     events:
       - http:
           path: api/v1/blog
           method: GET
           cors: true
   create-blog:
-    handler: api/blog.createBlog
+    handler: api/blog.post
     events:
       - http:
           path: api/v1/blog
