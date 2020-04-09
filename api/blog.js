@@ -113,8 +113,3 @@ const getBlogPost = (event) => {
         });
     });
 }
-
-
-// test2345
-
-
