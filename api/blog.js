@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-AWS.config.update({region: 'eu-west-1'});
+AWS.config.update({ region: 'eu-west-1' });
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Blog";
 
@@ -10,20 +10,20 @@ exports.createBlog = async (event) => {
         data => {
             const response = {
                 statusCode: 200,
-                body: JSON.stringify({success: true, data: data}),
+                body: JSON.stringify({ success: true, data: data }),
             };
-        
+
             return response;
         },
         error => {
             const response = {
                 statusCode: 400,
-                body: JSON.stringify({success:false, error: error}),
+                body: JSON.stringify({ success: false, data: error }),
             };
-        
+
             return response;
         }
-    )    
+    )
 };
 
 exports.getBlog = async (event) => {
@@ -31,7 +31,7 @@ exports.getBlog = async (event) => {
         data => {
             var response = {
                 statusCode: 200,
-                body: JSON.stringify(data)
+                body: JSON.stringify({ success: true, data: data })
             };
 
             return response;
@@ -39,8 +39,8 @@ exports.getBlog = async (event) => {
         error => {
             var response = {
                 statusCode: 400,
-                body: JSON.stringify(error)
-            };  
+                body: JSON.stringify({ success: false, data: error })
+            };
 
             return response;
         }
@@ -52,7 +52,7 @@ const createBlogPost = (request) => {
         ID: Date.now(),
         Title: request.title,
         BlogText: request.blogText,
-        Tags : request.tags,
+        Tags: request.tags,
         GalleryItems: request.galleryItems
     };
 
@@ -61,16 +61,16 @@ const createBlogPost = (request) => {
         Item: blogData
     };
 
-    return new Promise(function(resolve, reject) {
-        documentClient.put(params, function(error, data) {
-            if(error) {
+    return new Promise(function (resolve, reject) {
+        documentClient.put(params, function (error, data) {
+            if (error) {
                 var result = {
                     message: error
                 };
 
                 return reject(result);
             }
-            if(data) {
+            if (data) {
                 return resolve(true);
             }
             else {
@@ -82,24 +82,24 @@ const createBlogPost = (request) => {
 
 const getBlogPost = (event) => {
     const id = parseInt(event.queryStringParameters['id']);
-    
+
     var params = {
         TableName: tableName,
-        Key : {
-            'ID' : id
+        Key: {
+            'ID': id
         }
     };
 
-    return new Promise(function(resolve, reject) {
-        documentClient.get(params, function(error, data) {
-            if(error) {
+    return new Promise(function (resolve, reject) {
+        documentClient.get(params, function (error, data) {
+            if (error) {
                 var result = {
                     message: error
                 };
 
                 return reject(result);
             }
-            if(data && data.Item) {
+            if (data && data.Item) {
                 var result = data.Item;
 
                 return resolve(result);
