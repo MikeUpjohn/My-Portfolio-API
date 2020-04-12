@@ -52,6 +52,7 @@ const createProject = (request) => {
             else {
                 return reject(false);
             }
-        });
+        gi t
+    });
     });
 };
