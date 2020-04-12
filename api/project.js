@@ -38,21 +38,20 @@ const createProject = (request) => {
     };
 
     return new Promise((resolve, reject) => {
-        documentClient.put(params, function(error, data) {
-            if(error) {
+        documentClient.put(params, function (error, data) {
+            if (error) {
                 var result = {
                     message: error
                 };
-                
+
                 return reject(result);
             }
-            if(data) {
+            if (data) {
                 return resolve(true);
             }
             else {
                 return reject(false);
             }
-        gi t
-    });
+        });
     });
 };
